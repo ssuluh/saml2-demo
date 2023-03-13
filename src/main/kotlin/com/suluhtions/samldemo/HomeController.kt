@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 class HomeController {
-    @RequestMapping("/")
+    @RequestMapping("")
     fun home(@AuthenticationPrincipal principal: Saml2AuthenticatedPrincipal, model: Model) : String {
+        model.addAttribute("name", principal.name)
+        model.addAttribute("emailAddress", principal.getFirstAttribute("email"))
+        model.addAttribute("userAttributes", principal.attributes)
         return "home"
     }
 }

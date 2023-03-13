@@ -1,0 +1,12 @@
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          saml2demo:
+            assertingParty:
+              metadata-uri: http://localhost:48080/auth/realms/saml2demo/protocol/saml/descriptor
+            signing:
+              credentials:
+                - private-key-location: classpath:local.key
+                  certificate-location: classpath:local.crt
