@@ -1,0 +1,28 @@
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    environment:
+      - KEYCLOAK_ADMIN=keycloak
+      - KEYCLOAK_ADMIN_PASSWORD=keycloak
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_HOSTNAME=localhost
+      - KC_HOSTNAME_PORT=48080
+      - KC_DB_USERNAME=postgres
+      - KC_DB_PASSWORD=postgres
+    command: ["start-dev --db=postgres --http-relative-path=/auth"]
+    ports:
+      - 48080:8080
+    depends_on:
+      - postgres
